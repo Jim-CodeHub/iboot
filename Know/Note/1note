@@ -1,0 +1,55 @@
+ARM的嵌入式IDE发展：
+
+1)SDT，英文全称ARM SoftWare Development Kit，是ARM为方便用户在ARM芯片进行应用软件开发而推出的一整套开发工具。
+
+2)ADS，英文全称ARM Developer Suite，是ARM推出的新一代ARM集成开发环境，用来取代SDT。
+
+3)RVDS，英文全称RealView Development Suite，是ARM公司继SDT和ADS1.2之后主推的新一代研发工具。
+
+4)DS-5，英文全称ARM Development Studio5，是ARM的有一次升级软件，加入对ARMv7/v8架构的支持。
+
+
+
+随着SoC时代的来临和Cache的广泛使用，在处理器调试过程中片外仪器难以测量片内数据流和指令流，不得不以硅片面积为代价来
+
+解决处理器运行状态的实时观测问题。 越来越多的处理器厂商开始提供硬件片上Trace功能，片上Trace系统通过专用硬件非
+
+入侵地实时记录程序执行路径和数据读写等信息，压缩成Trace数据流后，通过专用 数据通道，输出端口传输至调试主机。
+
+调试主机中的开发工具解压缩Trace数据流，恢复程序运行信息以供调试和性能分析。
+
+ARM的CoreSight是目前业界领先的多核片上Trace解决方案。CoreSight体系结构非常灵活，其中各个部件可以根据不同处理器
+
+厂商的需要而进行组合。
+
+一个典型的CoreSight调试结构组成部分：
+
+1)控制访问部件，配置和控制数据流的产生，但是不产生数据流。    
+
+DAP(Debug Access Port)：可以实时访问AMBA总线上的系统内存，外设寄存器，以及所有调试配置寄存器，而不需挂起系统。    
+
+ECT(Embedded Cross Trigger)：包括CTI(Cross Trigger Interface)和CTM(Cross Trigger Matrix)，为
+
+ETM(Embedded Trace Macrocell)提供接口，用于将一个处理器的调试事件传递给另一个
+
+处理器。
+
+2)源部件，用于产生向ATB(AMBA Trace Bus)发送的跟踪数据，一般是APB总线。    
+
+HTM(AHB Trace Macrocell)：用于获取AHB总线跟踪信息，包括总线的层次，存储结构，数据流，控制流。    
+
+ETM(Embedded Trace Macrocell)：用于获取处理器核的跟踪信息。
+
+3)汇聚点，芯片上跟踪数据的终点。    
+
+TPIU(Trace Port Interface Unit)：将片内各种跟踪数据源获取的信息按照TPIU帧的格式进行组装，然后通过Trace Port传送
+
+到片外。    
+
+ETB(Embedded Trace Buffer)：一个32位的RAM，作为片内跟踪信息缓冲区。    
+
+SWO(Serial Wire Output)：类似TPIU，但仅输出ITM单元的跟踪信息，只需要一个引脚。
+
+
+
+使用Trace Port接口进行调试还需要专用的跟踪器(Trace)，ARM公司的开发工具RVDS中RVT(RealView Tracer)就是这种跟踪器。 仿真器RealView ICE(In-Circuit Emulator)是一种基于JTAG的调试解决方案。
